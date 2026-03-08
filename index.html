@@ -783,9 +783,14 @@
     <div class="header">
         <div class="header-top">
             <div class="logo"><i class="fas fa-shopping-basket"></i>Bazarly</div>
-            <div class="header-actions">
-                <button class="header-btn" onclick="openHistory()"><i class="fas fa-history"></i></button>
-            </div>
+         <div class="header-actions">
+    <button class="header-btn" onclick="shareList()">
+        <i class="fas fa-share-alt"></i>
+    </button>
+    <button class="header-btn" onclick="openHistory()">
+        <i class="fas fa-history"></i>
+    </button>
+</div>
         </div>
         <div class="main-tabs">
             <button class="main-tab active" data-section="bazar" onclick="switchSection('bazar')">
@@ -1372,6 +1377,35 @@
 
         // ============ INIT ============
         renderAll();
+        function shareList() {
+    const items = getCurrentItems();
+
+    if (items.length === 0) {
+        alert("Nothing to share yet.");
+        return;
+    }
+
+    let text = "🛒 My Bazarly List\n\n";
+
+    items.forEach(item => {
+        const total = (item.price * item.qty).toFixed(2);
+        const status = item.bought ? "✅" : "⬜";
+        text += `${status} ${item.name} (x${item.qty}) - ${state.currency}${total}\n`;
+    });
+
+    const total = items.reduce((sum, i) => sum + (i.price * i.qty), 0);
+    text += `\n💰 Total: ${state.currency}${total.toFixed(2)}`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: "Bazarly List",
+            text: text
+        });
+    } else {
+        navigator.clipboard.writeText(text);
+        alert("List copied to clipboard!");
+    }
+}
     </script>
 </body>
 </html>
