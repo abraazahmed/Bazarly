@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bazarly - Home Groceries</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #5A52D5;
+            --primary-light: #8B85FF;
+            --secondary: #FF6B6B;
+            --accent: #4ECDC4;
+            --success: #2ECC71;
+            --warning: #F39C12;
+            --danger: #E74C3C;
+            --bg: #0F0F1A;
+            --bg-card: #1A1A2E;
+            --bg-card2: #16213E;
+            --bg-input: #252542;
+            --text: #EAEAEA;
+            --text-muted: #8888AA;
+            --border: #2A2A4A;
+            --shadow: rgba(0,0,0,0.3);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 20px 20px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: 1px;
+        }
+
+        .logo i {
+            margin-right: 8px;
+            color: #FFD93D;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .header-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        /* Main Tabs */
+        .main-tabs {
+            display: flex;
+            gap: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 4px;
+        }
+
+        .main-tab {
+            flex: 1;
+            padding: 10px 8px;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .main-tab.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .main-tab i {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        /* Currency Selector */
+        .currency-bar {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            gap: 10px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .currency-bar label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .currency-select {
+            background: var(--bg-input);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .total-display {
+            margin-left: auto;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Sub Tabs */
+        .sub-tabs-container {
+            padding: 12px 20px;
+            background: var(--bg-card);
+        }
+
+        .sub-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .sub-tab {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .sub-tab.active {
+            border-color: var(--primary);
+            background: rgba(108, 99, 255, 0.15);
+            color: var(--primary-light);
+        }
+
+        .sub-tab .count {
+            background: var(--border);
+            padding: 1px 7px;
+            border-radius: 10px;
+            font-size: 11px;
+            margin-left: 4px;
+        }
+
+        .sub-tab.active .count {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Notes System (for Bazar List) */
+        .notes-bar {
+            padding: 10px 20px;
+            background: var(--bg);
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .notes-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .note-chip {
+            flex-shrink: 0;
+            padding: 7px 16px;
+            border-radius: 20px;
+            border: 1.5px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .note-chip.active {
+            border-color: var(--accent);
+            background: rgba(78, 205, 196, 0.15);
+            color: var(--accent);
+        }
+
+        .note-chip .delete-note {
+            font-size: 10px;
+            opacity: 0.6;
+            cursor: pointer;
+            margin-left: 2px;
+        }
+
+        .note-chip .delete-note:hover {
+            opacity: 1;
+            color: var(--danger);
+        }
+
+        .add-note-chip {
+            flex-shrink: 0;
+            padding: 7px 14px;
+            border-radius: 20px;
+            border: 1.5px dashed var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-note-chip:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Content Area */
+        .content {
+            padding: 15px 20px 100px;
+            min-height: 50vh;
+        }
+
+        /* Item Card */
+        .item-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .item-card:hover {
+            border-color: var(--primary);
+        }
+
+        .item-checkbox {
+            width: 24px;
+            height: 24px;
+            border-radius: 7px;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .item-checkbox.checked {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .item-checkbox.checked i {
+            color: white;
+            font-size: 12px;
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .item-name.bought {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        .item-details {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .item-price {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .item-action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: none;
+            background: var(--bg-input);
+            color: var(--text-muted);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item-action-btn:hover {
+            color: var(--danger);
+            background: rgba(231, 76, 60, 0.15);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* FAB */
+        .fab {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+            transition: all 0.3s;
+            z-index: 90;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            display: flex;
+            padding: 8px 20px;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+            z-index: 100;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 6px;
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 200;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            width: 100%;
+            max-width: 480px;
+            border-radius: 24px 24px 0 0;
+            padding: 20px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal-handle {
+            width: 40px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin: 0 auto 15px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--bg-input);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* History Panel */
+        .history-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 480px;
+            height: 100%;
+            background: var(--bg);
+            z-index: 300;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .history-panel.open {
+            right: 0;
+        }
+
+        .history-header {
+            padding: 20px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .history-back {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: var(--bg-input);
+            border: none;
+            color: var(--text);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .history-content {
+            padding: 15px 20px;
+        }
+
+        .history-date {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin: 15px 0 8px;
+            padding-left: 5px;
+        }
+
+        .history-item {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .history-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .history-item-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .history-item-price {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 14px;
+        }
+
+        .history-item-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .history-section-label {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .label-bazar { background: rgba(108, 99, 255, 0.15); color: var(--primary-light); }
+        .label-medicine { background: rgba(255, 107, 107, 0.15); color: var(--secondary); }
+        .label-due { background: rgba(243, 156, 18, 0.15); color: var(--warning); }
+
+        /* Note name modal input */
+        .note-name-modal .form-input {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* Summary section */
+        .summary-bar {
+            background: var(--bg-card2);
+            margin: 0 0 10px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .summary-value {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        /* Section color accents */
+        .section-medicine .item-price { color: var(--secondary); }
+        .section-due .item-price { color: var(--warning); }
+
+        .clear-history-btn {
+            background: rgba(231, 76, 60, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .clear-history-btn:hover {
+            background: rgba(231, 76, 60, 0.25);
+        }
+
+        .note-sum-inline {
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-top">
+            <div class="logo"><i class="fas fa-shopping-basket"></i>Bazarly</div>
+            <div class="header-actions">
+                <button class="header-btn" onclick="openHistory()"><i class="fas fa-history"></i></button>
+            </div>
+        </div>
+        <div class="main-tabs">
+            <button class="main-tab active" data-section="bazar" onclick="switchSection('bazar')">
+                <i class="fas fa-shopping-cart"></i>Bazar List
+            </button>
+            <button class="main-tab" data-section="medicine" onclick="switchSection('medicine')">
+                <i class="fas fa-pills"></i>Medicine
+            </button>
+            <button class="main-tab" data-section="due" onclick="switchSection('due')">
+                <i class="fas fa-file-invoice-dollar"></i>Due Payment
+            </button>
+        </div>
+    </div>
+
+    <!-- Currency Bar -->
+    <div class="currency-bar">
+        <label><i class="fas fa-coins"></i> Currency:</label>
+        <select class="currency-select" id="currencySelect" onchange="changeCurrency()">
+            <option value="৳" data-symbol="৳">🇧🇩 BDT (৳)</option>
+            <option value="$" data-symbol="$">🇺🇸 USD ($)</option>
+            <option value="€" data-symbol="€">🇪🇺 EUR (€)</option>
+            <option value="£" data-symbol="£">🇬🇧 GBP (£)</option>
+            <option value="₹" data-symbol="₹">🇮🇳 INR (₹)</option>
+            <option value="¥" data-symbol="¥">🇯🇵 JPY (¥)</option>
+            <option value="₨" data-symbol="₨">🇵🇰 PKR (₨)</option>
+            <option value="RM" data-symbol="RM">🇲🇾 MYR (RM)</option>
+            <option value="SAR" data-symbol="SAR">🇸🇦 SAR</option>
+            <option value="AED" data-symbol="AED">🇦🇪 AED</option>
+        </select>
+        <div class="total-display" id="totalDisplay">৳0</div>
+    </div>
+
+    <!-- Sub Tabs -->
+    <div class="sub-tabs-container">
+        <div class="sub-tabs">
+            <button class="sub-tab active" data-filter="all" onclick="switchFilter('all')">All <span class="count" id="countAll">0</span></button>
+            <button class="sub-tab" data-filter="tobuy" onclick="switchFilter('tobuy')">To Buy <span class="count" id="countTobuy">0</span></button>
+            <button class="sub-tab" data-filter="bought" onclick="switchFilter('bought')">Bought <span class="count" id="countBought">0</span></button>
+        </div>
+    </div>
+
+    <!-- Notes Bar (only for Bazar) -->
+    <div class="notes-bar" id="notesBar">
+        <!-- Dynamic note chips will be here -->
+    </div>
+
+    <!-- Content -->
+    <div class="content" id="content">
+        <!-- Items rendered here -->
+    </div>
+
+    <!-- FAB -->
+    <button class="fab" onclick="openAddModal()"><i class="fas fa-plus"></i></button>
+
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="switchNav('home')">
+            <i class="fas fa-home"></i>Home
+        </button>
+        <button class="nav-item" onclick="switchNav('stats')">
+            <i class="fas fa-chart-pie"></i>Stats
+        </button>
+        <button class="nav-item" onclick="openHistory()">
+            <i class="fas fa-clock-rotate-left"></i>History
+        </button>
+        <button class="nav-item" onclick="switchNav('settings')">
+            <i class="fas fa-cog"></i>Settings
+        </button>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal">
+            <div class="modal-handle"></div>
+            <div class="modal-title" id="modalTitle">Add New Item</div>
+            <div class="form-group">
+                <label>Item Name</label>
+                <input type="text" class="form-input" id="itemName" placeholder="e.g. Rice, Milk, Paracetamol...">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" class="form-input" id="itemPrice" placeholder="0.00" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" class="form-input" id="itemQty" placeholder="1" value="1" min="1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Note (Optional)</label>
+                <input type="text" class="form-input" id="itemNote" placeholder="Any extra details...">
+            </div>
+            <input type="hidden" id="editIndex" value="-1">
+            <button class="btn btn-primary" onclick="saveItem()">
+                <i class="fas fa-check"></i> Save Item
+            </button>
+            <button class="btn btn-secondary" onclick="closeAddModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Add Note Modal -->
+    <div class="modal-overlay note-name-modal" id="noteModal">
+        <div class="modal">
+            <div class="modal-handle"></div>
+            <div class="modal-title">Create New List</div>
+            <div class="form-group">
+                <label>List Name</label>
+                <input type="text" class="form-input" id="noteName" placeholder="e.g. Shwapno, Agora, Meena Bazar...">
+            </div>
+            <button class="btn btn-primary" onclick="saveNote()">
+                <i class="fas fa-plus"></i> Create List
+            </button>
+            <button class="btn btn-secondary" onclick="closeNoteModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- History Panel -->
+    <div class="history-panel" id="historyPanel">
+        <div class="history-header">
+            <button class="history-back" onclick="closeHistory()"><i class="fas fa-arrow-left"></i></button>
+            <h2>History</h2>
+        </div>
+        <div class="history-content" id="historyContent">
+            <!-- History items -->
+        </div>
+    </div>
+
+    <script>
+        // ============ DATA MODEL ============
+        let state = {
+            currentSection: 'bazar', // bazar, medicine, due
+            currentFilter: 'all', // all, tobuy, bought
+            currency: '৳',
+            // Bazar has multiple notes (lists), medicine & due have single list
+            bazarNotes: [
+                { id: 'default', name: 'General', items: [] }
+            ],
+            currentBazarNote: 'default',
+            medicineItems: [],
+            dueItems: [],
+            history: []
+        };
+
+        // Load state from localStorage
+        function loadState() {
+            const saved = localStorage.getItem('bazarly_state');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    state = { ...state, ...parsed };
+                } catch(e) {}
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem('bazarly_state', JSON.stringify(state));
+        }
+
+        loadState();
+
+        // ============ SECTION SWITCHING ============
+        function switchSection(section) {
+            state.currentSection = section;
+            state.currentFilter = 'all';
+
+            document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.main-tab[data-section="${section}"]`).classList.add('active');
+
+            document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('.sub-tab[data-filter="all"]').classList.add('active');
+
+            // Show/hide notes bar
+            document.getElementById('notesBar').style.display = section === 'bazar' ? 'flex' : 'none';
+
+            renderAll();
+            saveState();
+        }
+
+        function switchFilter(filter) {
+            state.currentFilter = filter;
+            document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.sub-tab[data-filter="${filter}"]`).classList.add('active');
+            renderItems();
+        }
+
+        function changeCurrency() {
+            const sel = document.getElementById('currencySelect');
+            state.currency = sel.value;
+            renderAll();
+            saveState();
+        }
+
+        // ============ GET CURRENT ITEMS ============
+        function getCurrentItems() {
+            if (state.currentSection === 'bazar') {
+                const note = state.bazarNotes.find(n => n.id === state.currentBazarNote);
+                return note ? note.items : [];
+            } else if (state.currentSection === 'medicine') {
+                return state.medicineItems;
+            } else {
+                return state.dueItems;
+            }
+        }
+
+        function setCurrentItems(items) {
+            if (state.currentSection === 'bazar') {
+                const note = state.bazarNotes.find(n => n.id === state.currentBazarNote);
+                if (note) note.items = items;
+            } else if (state.currentSection === 'medicine') {
+                state.medicineItems = items;
+            } else {
+                state.dueItems = items;
+            }
+        }
+
+        // ============ NOTES SYSTEM ============
+        function renderNotes() {
+            const bar = document.getElementById('notesBar');
+            if (state.currentSection !== 'bazar') {
+                bar.style.display = 'none';
+                return;
+            }
+            bar.style.display = 'flex';
+            bar.innerHTML = '';
+
+            state.bazarNotes.forEach(note => {
+                const chip = document.createElement('div');
+                chip.className = `note-chip ${note.id === state.currentBazarNote ? 'active' : ''}`;
+
+                const noteSum = note.items.reduce((s, i) => s + (i.price * i.qty), 0);
+                chip.innerHTML = `
+                    <span onclick="switchNote('${note.id}')">${note.name}</span>
+                    <span class="note-sum-inline">${state.currency}${noteSum.toFixed(0)}</span>
+                    ${state.bazarNotes.length > 1 ? `<span class="delete-note" onclick="event.stopPropagation(); deleteNote('${note.id}')"><i class="fas fa-times"></i></span>` : ''}
+                `;
+                bar.appendChild(chip);
+            });
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-note-chip';
+            addBtn.innerHTML = '<i class="fas fa-plus"></i> New List';
+            addBtn.onclick = () => openNoteModal();
+            bar.appendChild(addBtn);
+        }
+
+        function switchNote(noteId) {
+            state.currentBazarNote = noteId;
+            renderAll();
+            saveState();
+        }
+
+        function openNoteModal() {
+            document.getElementById('noteModal').classList.add('show');
+            document.getElementById('noteName').value = '';
+            document.getElementById('noteName').focus();
+        }
+
+        function closeNoteModal() {
+            document.getElementById('noteModal').classList.remove('show');
+        }
+
+        function saveNote() {
+            const name = document.getElementById('noteName').value.trim();
+            if (!name) return;
+            const id = 'note_' + Date.now();
+            state.bazarNotes.push({ id, name, items: [] });
+            state.currentBazarNote = id;
+            closeNoteModal();
+            renderAll();
+            saveState();
+        }
+
+        function deleteNote(noteId) {
+            if (state.bazarNotes.length <= 1) return;
+            if (!confirm('Delete this list and all its items?')) return;
+
+            // Move items to history
+            const note = state.bazarNotes.find(n => n.id === noteId);
+            if (note) {
+                note.items.forEach(item => {
+                    state.history.push({
+                        ...item,
+                        section: 'bazar',
+                        noteName: note.name,
+                        deletedAt: new Date().toISOString()
+                    });
+                });
+            }
+
+            state.bazarNotes = state.bazarNotes.filter(n => n.id !== noteId);
+            if (state.currentBazarNote === noteId) {
+                state.currentBazarNote = state.bazarNotes[0].id;
+            }
+            renderAll();
+            saveState();
+        }
+
+        // ============ ITEMS RENDERING ============
+        function renderItems() {
+            const content = document.getElementById('content');
+            let items = getCurrentItems();
+
+            // Filter
+            if (state.currentFilter === 'tobuy') {
+                items = items.filter(i => !i.bought);
+            } else if (state.currentFilter === 'bought') {
+                items = items.filter(i => i.bought);
+            }
+
+            // Update counts
+            const allItems = getCurrentItems();
+            document.getElementById('countAll').textContent = allItems.length;
+            document.getElementById('countTobuy').textContent = allItems.filter(i => !i.bought).length;
+            document.getElementById('countBought').textContent = allItems.filter(i => i.bought).length;
+
+            // Total
+            const total = allItems.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            document.getElementById('totalDisplay').textContent = `${state.currency}${total.toFixed(2)}`;
+
+            // Section class for coloring
+            const sectionClass = state.currentSection === 'medicine' ? 'section-medicine' : state.currentSection === 'due' ? 'section-due' : '';
+
+            if (items.length === 0) {
+                const icons = { bazar: 'fa-shopping-basket', medicine: 'fa-pills', due: 'fa-receipt' };
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas ${icons[state.currentSection]}"></i>
+                        <p>No items yet.<br>Tap + to add your first item!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Summary bar
+            const filteredTotal = items.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            let html = `
+                <div class="summary-bar">
+                    <span class="summary-label">Total (${state.currentFilter === 'all' ? 'All' : state.currentFilter === 'tobuy' ? 'To Buy' : 'Bought'})</span>
+                    <span class="summary-value">${state.currency}${filteredTotal.toFixed(2)}</span>
+                </div>
+            `;
+
+            items.forEach((item, idx) => {
+                const realIndex = getCurrentItems().indexOf(item);
+                html += `
+                    <div class="item-card ${sectionClass}">
+                        <div class="item-checkbox ${item.bought ? 'checked' : ''}" onclick="toggleBought(${realIndex})">
+                            ${item.bought ? '<i class="fas fa-check"></i>' : ''}
+                        </div>
+                        <div class="item-info">
+                            <div class="item-name ${item.bought ? 'bought' : ''}">${item.name}</div>
+                            <div class="item-details">Qty: ${item.qty}${item.note ? ' • ' + item.note : ''}</div>
+                        </div>
+                        <div class="item-price">${state.currency}${(item.price * item.qty).toFixed(2)}</div>
+                        <div class="item-actions">
+                            <button class="item-action-btn" onclick="editItem(${realIndex})"><i class="fas fa-pen"></i></button>
+                            <button class="item-action-btn" onclick="deleteItem(${realIndex})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            content.innerHTML = html;
+        }
+
+        function renderAll() {
+            renderNotes();
+            renderItems();
+            // Set currency selector
+            document.getElementById('currencySelect').value = state.currency;
+        }
+
+        // ============ ITEM ACTIONS ============
+        function toggleBought(index) {
+            const items = getCurrentItems();
+            items[index].bought = !items[index].bought;
+
+            if (items[index].bought) {
+                // Add to history
+                const noteName = state.currentSection === 'bazar'
+                    ? (state.bazarNotes.find(n => n.id === state.currentBazarNote)?.name || '')
+                    : '';
+                state.history.push({
+                    ...items[index],
+                    section: state.currentSection,
+                    noteName: noteName,
+                    boughtAt: new Date().toISOString()
+                });
+            }
+
+            renderItems();
+            saveState();
+        }
+
+        function openAddModal() {
+            document.getElementById('addModal').classList.add('show');
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemPrice').value = '';
+            document.getElementById('itemQty').value = '1';
+            document.getElementById('itemNote').value = '';
+            document.getElementById('editIndex').value = '-1';
+
+            const titles = { bazar: 'Add Bazar Item', medicine: 'Add Medicine', due: 'Add Due Payment' };
+            document.getElementById('modalTitle').textContent = titles[state.currentSection];
+            setTimeout(() => document.getElementById('itemName').focus(), 100);
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.remove('show');
+        }
+
+        function saveItem() {
+            const name = document.getElementById('itemName').value.trim();
+            const price = parseFloat(document.getElementById('itemPrice').value) || 0;
+            const qty = parseInt(document.getElementById('itemQty').value) || 1;
+            const note = document.getElementById('itemNote').value.trim();
+            const editIndex = parseInt(document.getElementById('editIndex').value);
+
+            if (!name) {
+                document.getElementById('itemName').style.borderColor = 'var(--danger)';
+                setTimeout(() => document.getElementById('itemName').style.borderColor = '', 1500);
+                return;
+            }
+
+            const item = {
+                name,
+                price,
+                qty,
+                note,
+                bought: false,
+                createdAt: new Date().toISOString()
+            };
+
+            const items = getCurrentItems();
+
+            if (editIndex >= 0) {
+                item.bought = items[editIndex].bought;
+                item.createdAt = items[editIndex].createdAt;
+                items[editIndex] = item;
+            } else {
+                items.push(item);
+            }
+
+            setCurrentItems(items);
+            closeAddModal();
+            renderAll();
+            saveState();
+        }
+
+        function editItem(index) {
+            const items = getCurrentItems();
+            const item = items[index];
+            document.getElementById('itemName').value = item.name;
+            document.getElementById('itemPrice').value = item.price;
+            document.getElementById('itemQty').value = item.qty;
+            document.getElementById('itemNote').value = item.note || '';
+            document.getElementById('editIndex').value = index;
+            document.getElementById('modalTitle').textContent = 'Edit Item';
+            document.getElementById('addModal').classList.add('show');
+        }
+
+        function deleteItem(index) {
+            const items = getCurrentItems();
+            const item = items[index];
+
+            // Add to history
+            const noteName = state.currentSection === 'bazar'
+                ? (state.bazarNotes.find(n => n.id === state.currentBazarNote)?.name || '')
+                : '';
+            state.history.push({
+                ...item,
+                section: state.currentSection,
+                noteName: noteName,
+                deletedAt: new Date().toISOString()
+            });
+
+            items.splice(index, 1);
+            setCurrentItems(items);
+            renderAll();
+            saveState();
+        }
+
+        // ============ HISTORY ============
+        function openHistory() {
+            renderHistory();
+            document.getElementById('historyPanel').classList.add('open');
+        }
+
+        function closeHistory() {
+            document.getElementById('historyPanel').classList.remove('open');
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('historyContent');
+
+            if (state.history.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-clock-rotate-left"></i>
+                        <p>No history yet.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Group by date
+            const grouped = {};
+            [...state.history].reverse().forEach(item => {
+                const date = new Date(item.boughtAt || item.deletedAt).toLocaleDateString('en-US', {
+                    weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+                });
+                if (!grouped[date]) grouped[date] = [];
+                grouped[date].push(item);
+            });
+
+            let html = '';
+            for (const [date, items] of Object.entries(grouped)) {
+                html += `<div class="history-date">${date}</div>`;
+                items.forEach(item => {
+                    const labelClass = item.section === 'bazar' ? 'label-bazar' : item.section === 'medicine' ? 'label-medicine' : 'label-due';
+                    const sectionName = item.section === 'bazar' ? 'Bazar' : item.section === 'medicine' ? 'Medicine' : 'Due Payment';
+                    const statusText = item.deletedAt && !item.boughtAt ? 'Deleted' : 'Bought';
+                    const statusColor = statusText === 'Deleted' ? 'color:var(--danger)' : 'color:var(--success)';
+
+                    html += `
+                        <div class="history-item">
+                            <span class="history-section-label ${labelClass}">${sectionName}${item.noteName ? ' • ' + item.noteName : ''}</span>
+                            <div class="history-item-header">
+                                <span class="history-item-name">${item.name}</span>
+                                <span class="history-item-price">${state.currency}${(item.price * item.qty).toFixed(2)}</span>
+                            </div>
+                            <div class="history-item-meta">
+                                Qty: ${item.qty} • <span style="${statusColor}">${statusText}</span>
+                                ${item.note ? ' • ' + item.note : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            html += `<button class="clear-history-btn" onclick="clearHistory()"><i class="fas fa-trash"></i> Clear All History</button>`;
+            container.innerHTML = html;
+        }
+
+        function clearHistory() {
+            if (!confirm('Clear all history?')) return;
+            state.history = [];
+            renderHistory();
+            saveState();
+        }
+
+        // ============ NAV ============
+        function switchNav(tab) {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            if (tab === 'history') {
+                openHistory();
+            }
+        }
+
+        // ============ MODAL CLOSE ON OVERLAY CLICK ============
+        document.getElementById('addModal').addEventListener('click', function(e) {
+            if (e.target === this) closeAddModal();
+        });
+        document.getElementById('noteModal').addEventListener('click', function(e) {
+            if (e.target === this) closeNoteModal();
+        });
+
+        // ============ KEYBOARD ENTER SUPPORT ============
+        document.getElementById('itemName').addEventListener('keydown', e => {
+            if (e.key === 'Enter') document.getElementById('itemPrice').focus();
+        });
+        document.getElementById('itemPrice').addEventListener('keydown', e => {
+            if (e.key === 'Enter') document.getElementById('itemQty').focus();
+        });
+        document.getElementById('itemQty').addEventListener('keydown', e => {
+            if (e.key === 'Enter') saveItem();
+        });
+        document.getElementById('noteName').addEventListener('keydown', e => {
+            if (e.key === 'Enter') saveNote();
+        });
+
+        // ============ INIT ============
+        renderAll();
+    </script>
+</body>
+</html>
